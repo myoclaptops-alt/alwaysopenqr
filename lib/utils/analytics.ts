@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 export async function trackScan(businessId: string) {
   try {
+    const supabase = createClient();
     const userAgent = navigator.userAgent;
     const referrer = document.referrer;
 
@@ -29,6 +30,7 @@ export async function trackCtaClick(
   linkUrl: string
 ) {
   try {
+    const supabase = createClient();
     await supabase.from('cta_clicks').insert({
       business_id: businessId,
       link_label: linkLabel,

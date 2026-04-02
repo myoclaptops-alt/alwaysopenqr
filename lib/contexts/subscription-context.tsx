@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useMemo } from 'react';
 import { useAuth } from './auth-context';
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { PLAN_LIMITS } from '@/lib/stripe/config';
 
 type PlanType = 'FREE' | 'STARTER' | 'PRO';
@@ -40,6 +40,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
   const [subscription, setSubscription] = useState<any>(null);
   const [currentPlan, setCurrentPlan] = useState<PlanType>('FREE');
   const [isLoading, setIsLoading] = useState(true);
+  const supabase = useMemo(() => createClient(), []);
 
   const fetchSubscription = async () => {
     if (!user) {
